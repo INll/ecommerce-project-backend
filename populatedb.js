@@ -12,40 +12,38 @@
 
 
 // const path = process.argv.slice(2)[0];  // Get db path
-
+import async from 'async';
+import mongoose from 'mongoose';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
 // Use global connection instance
 import dbConnect from '../ecommerce-project/lib/mongoose.js';
 
-import async from 'async';
-import { Item, User, Cat, Filter } from './Models/index.js';
-
-import mongoose from 'mongoose';
 mongoose.set('strictQuery', false);
 
 function handleError(err) {
   console.error(err);
+  mongoose.connection.close();
 }
 
 async function main() {
   try {
-    await dbConnect();
+    mongoose.set('strictQuery', true);
+    await mongoose.connect(process.env.MONGODB_PATH);
     console.log(`MainFunc (Readystate: ${mongoose.connection.readyState})`);
-    console.log('Global in main functions:');
-    console.log(global.mongoose);
   } catch (err) {
     handleError(`Caught error: ${err}`);
+    mongoose.connection.close();
 }};
 main();
+
+import { Item, User, Cat, Filter } from './Models/index.js';
 
 const items = [];
 const users = [];
 const cats = [];
 const filters = [];
-
-
 
 // cb:
 // async docs specifies functions warpped inside async.series/parallel
@@ -144,7 +142,7 @@ async function populateItems(cb) {
     cb(null, populatedResults);
     console.log(`Finished creating filters: ${populatedResults}`);
   } catch (err) {
-    console.log('populateItems caught error!');
+    console.log(`populateItems caught error! ${err}`);
     cb(err, null);
   }
 }
@@ -216,7 +214,7 @@ async function populate() {
     console.log(`populate function result: ${results}`);
     mongoose.connection.close();
   } catch (err) {
-    console.log(`populate caught error!`);
+    console.log(`populate caught error! ${err}`);
     mongoose.connection.close();
   }
   return;

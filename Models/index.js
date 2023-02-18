@@ -1,6 +1,6 @@
 export { default as Item } from './item.js';
 export { default as Order } from './order.js';
-export { default as User } from './user.js';
+export { User as User, userSchema as userSchema } from './user.js';
 export { default as Cat } from './category.js';
 export { default as Filter } from './filter.js';
 export { default as DbConfigs } from './dbConfigs.js';
