@@ -1,4 +1,4 @@
-export { default as Item } from './item.js';
+export { Item as Item, ItemSchema as ItemSchema } from './item.js';
 export { default as Order } from './order.js';
 export { User as User, userSchema as userSchema } from './user.js';
 export { default as Cat } from './category.js';

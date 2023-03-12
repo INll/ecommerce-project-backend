@@ -6,7 +6,8 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema ({
   userName: { 
     type: String, 
-    required: true 
+    required: true,
+    unique: true
   },
   passWord: { 
     type: String, 
@@ -25,11 +26,22 @@ const UserSchema = new Schema ({
     type: Date, 
     default: Date.now 
   },
+  lastLogin: {
+    type: Date,
+    default: Date.now
+  },
   orders: [{ 
     type: Schema.Types.ObjectId, 
     ref: 'Order'
-  }]
+  }],
+  hasUploaded: {
+    type: Number,
+    min: 0,
+    default: 0
+  }
 });
+
+console.log(UserSchema.tree);
 
 const User = mongoose.model('User', UserSchema);
 const userSchema = UserSchema;

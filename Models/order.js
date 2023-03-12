@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Order } from ".";
 
 const Schema = mongoose.Schema;
 
@@ -6,8 +7,14 @@ const Schema = mongoose.Schema;
 const OrderSchema = new Schema ({
   itemID: [
     {
-      type: Schema.Types.ObjectId, 
-      ref: 'Item', required: true
+      itemid: {
+        type: Schema.Types.ObjectId, 
+        ref: 'Item', required: true  
+      },
+      amount: {
+        type: Number,
+        required: true
+      }
     }
   ],
   timeOfSale: { 
@@ -17,7 +24,14 @@ const OrderSchema = new Schema ({
   userName: { 
     type: Schema.Types.ObjectId, 
     ref: 'User'
+  },
+  orderID: {
+    type: Number,
+    required: true,
+    unique: true
   }
 });
 
-export default mongoose.models.Order || mongoose.model('Order', OrderSchema);
+const orderSchema = OrderSchema;
+
+export { orderSchema };

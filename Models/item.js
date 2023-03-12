@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 // item
 const ItemSchema = new Schema ({
   itemType: { 
-    type: [String], 
+    type: String, 
     required: true, 
     default: undefined 
   },
@@ -14,13 +14,16 @@ const ItemSchema = new Schema ({
     min: 0, 
     required: true 
   },
-  images: { 
+  images: {
+    type: Object
+  },
+  title: {
     type: String,
-  },  
-  // How to store references to images?s
+    required: true
+  },
   description: { 
     type: String, 
-    required: true 
+    required: true
   },
   stock: { 
     type: Number 
@@ -31,4 +34,6 @@ ItemSchema.virtual('url').get(function () {
   return `/item/${this._id}`;
 })
 
-export default mongoose.models.Item || mongoose.model('Item', ItemSchema);
+const Item = mongoose.model('Item', ItemSchema);
+
+export { ItemSchema, Item };
